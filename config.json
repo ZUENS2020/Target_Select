@@ -1,0 +1,21 @@
+{
+  "github_token": "",
+  "min_stars": 500,
+  "max_results": 50,
+  "search_keywords": [
+    "security vulnerability",
+    "CVE",
+    "security issue",
+    "outdated dependencies"
+  ],
+  "languages": [
+    "Python",
+    "JavaScript",
+    "Java",
+    "Go",
+    "PHP",
+    "Ruby",
+    "C",
+    "C++"
+  ]
+}
