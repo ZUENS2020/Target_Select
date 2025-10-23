@@ -26,6 +26,20 @@ pip install -r requirements.txt
 
 ## 使用方法
 
+### 快速启动（推荐）
+
+使用交互式启动脚本：
+
+```bash
+./quick_start.sh
+```
+
+或者：
+
+```bash
+bash quick_start.sh
+```
+
 ### 基本使用
 
 ```bash
