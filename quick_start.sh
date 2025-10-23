@@ -60,22 +60,28 @@ fi
 # 显示菜单
 echo ""
 echo "选择运行模式："
-echo "  1) 基础版本 (快速搜索)"
-echo "  2) 高级版本 (更多选项)"
-echo "  3) 查看使用指南"
-echo "  4) 退出"
+echo "  1) 🆕 过时依赖检测 (推荐 - 新功能)"
+echo "  2) 基础搜索版本"
+echo "  3) 高级搜索版本"
+echo "  4) 查看使用指南"
+echo "  5) 退出"
 echo ""
-read -p "请选择 [1-4]: " choice
+read -p "请选择 [1-5]: " choice
 
 case $choice in
     1)
         echo ""
-        echo "🚀 启动基础版本..."
-        python3 target_select.py
+        echo "🚀 启动过时依赖检测..."
+        python3 target_select_outdated.py
         ;;
     2)
         echo ""
-        echo "🚀 启动高级版本..."
+        echo "🚀 启动基础搜索版本..."
+        python3 target_select.py
+        ;;
+    3)
+        echo ""
+        echo "🚀 启动高级搜索版本..."
         python3 target_select_advanced.py --help
         echo ""
         echo "高级版本支持更多选项，请查看上面的帮助信息"
@@ -83,7 +89,7 @@ case $choice in
         read -p "按Enter键继续使用默认参数运行，或Ctrl+C退出..."
         python3 target_select_advanced.py
         ;;
-    3)
+    4)
         echo ""
         if command -v less &> /dev/null; then
             less USAGE_GUIDE.md
@@ -91,7 +97,7 @@ case $choice in
             cat USAGE_GUIDE.md
         fi
         ;;
-    4)
+    5)
         echo "再见!"
         exit 0
         ;;
