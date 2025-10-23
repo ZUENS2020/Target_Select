@@ -7,6 +7,7 @@
 import os
 import json
 from target_select import GitHubTargetSelector
+from target_select_outdated import OutdatedDependencyChecker
 
 
 def example_basic_search():
@@ -90,6 +91,39 @@ def example_check_vulnerabilities():
     return security_info
 
 
+def example_outdated_dependencies():
+    """示例5: 检测过时依赖（新功能）"""
+    print("\n" + "="*60)
+    print("示例5: 检测过时依赖（新功能）")
+    print("="*60)
+    
+    github_token = os.environ.get('GITHUB_TOKEN')
+    
+    # 创建过时依赖检测器
+    checker = OutdatedDependencyChecker(
+        github_token=github_token,
+        min_stars=500,
+        days_back=60  # 最近2个月
+    )
+    
+    print("注意：此示例需要大量API调用，已注释掉实际执行代码")
+    print("取消注释下面的代码以运行:")
+    print()
+    print("# 获取最近流行的仓库")
+    print("# repos = checker.fetch_recent_popular_repos(max_repos=10)")
+    print()
+    print("# 检查过时依赖")
+    print("# for repo in repos:")
+    print("#     dep_check = checker.check_outdated_dependencies(repo)")
+    print("#     if dep_check['has_outdated']:")
+    print("#         print(f\"✓ {repo['full_name']} 可能有过时依赖\")")
+    print()
+    print("# 导出结果")
+    print("# checker.export_results(repos, 'outdated_example.json')")
+    
+    return []
+
+
 def main():
     """运行所有示例"""
     print("""
@@ -109,6 +143,7 @@ def main():
         # example_language_filter()
         # example_export_results()
         # example_check_vulnerabilities()
+        example_outdated_dependencies()  # 新功能示例
         
         print("\n✅ 示例完成!")
         print("   取消注释上面的示例函数以运行不同的示例")
