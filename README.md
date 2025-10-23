@@ -67,7 +67,7 @@ bash quick_start.sh
 
 ```bash
 export GITHUB_TOKEN=your_github_token
-python target_select.py
+python target_select_outdated.py
 ```
 
 ### 获取GitHub Token
