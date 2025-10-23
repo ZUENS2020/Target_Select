@@ -10,6 +10,9 @@
 - 📊 支持按编程语言过滤
 - 💾 结果导出为JSON格式
 - 🔐 支持GitHub Token以提高API限制
+- 🆕 **直接获取最近2个月内流行项目（不使用搜索API）**
+- 🆕 **自动检测过时依赖（Dependabot、依赖文件分析）**
+- 🆕 **CodeQL 分析准备和配置生成**
 
 ## 安装
 
@@ -42,8 +45,24 @@ bash quick_start.sh
 
 ### 基本使用
 
+**方式1: 基础搜索版本**
+
 ```bash
 python target_select.py
+```
+
+**方式2: 高级搜索版本**
+
+```bash
+python target_select_advanced.py
+```
+
+**方式3: 过时依赖检测版本（新功能）**
+
+直接获取最近2个月内star > 500的项目，检测过时依赖并准备CodeQL分析：
+
+```bash
+python target_select_outdated.py
 ```
 
 ### 使用GitHub Token（推荐）
@@ -105,12 +124,24 @@ python target_select.py
 
 ## 搜索策略
 
-工具使用以下策略来识别可能存在漏洞的项目：
+工具提供三种不同的搜索策略：
+
+### 方式1: 关键词搜索 (target_select.py / target_select_advanced.py)
 
 1. **安全关键词搜索**：搜索包含"security vulnerability"、"CVE"等关键词的项目
 2. **过时依赖**：查找提到过时依赖的项目
 3. **安全问题**：搜索有安全相关issues的项目
 4. **Star数过滤**：只返回star数大于指定值的流行项目
+
+### 方式2: 直接获取 + 依赖检测 (target_select_outdated.py) 🆕
+
+1. **直接获取**：不使用搜索API，直接列出所有公开仓库
+2. **时间过滤**：只保留最近2个月内更新的项目
+3. **流行度过滤**：只保留star > 500的项目
+4. **依赖检测**：
+   - 检查是否启用 Dependabot 安全警报
+   - 检测常见依赖文件（package.json, requirements.txt, pom.xml等）
+5. **CodeQL准备**：为支持的语言生成CodeQL分析配置
 
 ## 示例输出
 

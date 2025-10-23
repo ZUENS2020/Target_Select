@@ -25,7 +25,12 @@ wheels/
 
 # Output files
 vulnerable_targets.json
+outdated_dependencies_targets.json
 *.json.bak
+
+# CodeQL analysis
+/tmp/codeql_analysis/
+*_codeql.yml
 
 # IDE
 .vscode/
