@@ -59,6 +59,7 @@ class OutdatedDependencyChecker:
         since_id = 0
         page = 0
         max_pages = 50  # 限制最大页数
+        total_checked = 0  # 总共检查的仓库数
         
         while len(repos) < max_repos and page < max_pages:
             try:
@@ -80,19 +81,33 @@ class OutdatedDependencyChecker:
                 if not batch:
                     break
                 
+                print(f"📦 正在检查第 {page + 1} 批仓库 (共 {len(batch)} 个)...")
+                
                 # 获取每个仓库的详细信息
-                for repo in batch:
+                for idx, repo in enumerate(batch, 1):
                     since_id = repo['id']
+                    total_checked += 1
+                    
+                    # 显示实时进度
+                    print(f"   [{idx}/{len(batch)}] 检查 {repo.get('full_name', 'unknown')}... ", end='', flush=True)
                     
                     # 预过滤：只获取可能符合条件的仓库详情
                     if repo.get('stargazers_count', 0) >= self.min_stars:
                         detailed_repo = self._get_repo_details(repo['full_name'])
                         if detailed_repo and self._is_recent_and_popular(detailed_repo):
                             repos.append(detailed_repo)
-                            print(f"  ✓ 找到: {detailed_repo['full_name']} ({detailed_repo['stars']} stars, 更新于 {detailed_repo['updated_at']})")
+                            print(f"✓ 找到匹配! ({detailed_repo['stars']} ⭐, 更新于 {detailed_repo['updated_at'][:10]})")
                             
                             if len(repos) >= max_repos:
+                                print(f"\n🎯 已达到目标数量 ({max_repos} 个项目)")
                                 break
+                        else:
+                            print("- (不符合时间或star条件)")
+                    else:
+                        print(f"- (仅 {repo.get('stargazers_count', 0)} ⭐)")
+                
+                # 显示当前批次进度摘要
+                print(f"   📊 进度: 已检查 {total_checked} 个仓库，找到 {len(repos)} 个符合条件的项目\n")
                 
                 page += 1
                 time.sleep(1)  # 避免API限制
@@ -101,7 +116,7 @@ class OutdatedDependencyChecker:
                 print(f"⚠️  获取仓库列表时出错: {e}", file=sys.stderr)
                 break
         
-        print(f"\n找到 {len(repos)} 个符合条件的仓库")
+        print(f"\n✅ 完成扫描! 总共检查了 {total_checked} 个仓库，找到 {len(repos)} 个符合条件的仓库")
         return repos
     
     def _get_repo_details(self, full_name: str) -> Optional[Dict]:
